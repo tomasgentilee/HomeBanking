@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="HomeBanking">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/HomeBanking.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
