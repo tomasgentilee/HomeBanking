@@ -24,7 +24,7 @@ Vue.createApp({
             .then(()=> window.location.replace("/web/home.html"))
         },
         logout(){
-            axios.post('/api/logout').then(response => console.log('signed out!!!'))
+            axios.post('/api/logout')
         },
         register(){
             axios.post('/api/clients',`name=${this.registerName}&lastName=${this.registerLastName}&email=${this.registerEmail}&password=${this.registerPassword}`,{headers:{'content-type':'application/x-www-form-urlencoded'}})

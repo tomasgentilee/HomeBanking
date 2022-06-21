@@ -23,7 +23,6 @@ Vue.createApp({
                 this.cardType = datos.data.cardType;
                 this.cardLimit = datos.data.creditCardLimit;
                 this.transactions = datos.data.transactions;
-                console.log(this.cardType)
             })
     },
 

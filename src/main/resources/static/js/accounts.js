@@ -37,7 +37,6 @@ let app = Vue.createApp({
                 this.cards = datos.data.cards.sort(function (a, b) {
                     return a.id - b.id
                 });
-                console.log(this.loans)
             });
         axios.get("/api/loans")
             .then(datos => {

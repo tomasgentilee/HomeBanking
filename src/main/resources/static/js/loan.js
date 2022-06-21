@@ -16,7 +16,6 @@ Vue.createApp({
             .then(datos => {
                 this.loan = datos.data;
                 this.payment = datos.data.payment;
-                console.log(this.loan)
             })
     },
 
