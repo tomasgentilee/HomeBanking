@@ -25,7 +25,7 @@ let app = Vue.createApp({
     },
 
     created() {
-        axios.get("http://localhost:8080/api/clients/current")
+        axios.get("/api/clients/current")
             .then(datos => {
                 this.clients = datos.data;
                 this.accounts = datos.data.accounts.sort(function (a, b) {
@@ -39,7 +39,7 @@ let app = Vue.createApp({
                 });
                 console.log(this.loans)
             });
-        axios.get("http://localhost:8080/api/loans")
+        axios.get("/api/loans")
             .then(datos => {
                 this.availableLoans = datos.data;
             })
@@ -50,7 +50,7 @@ let app = Vue.createApp({
 
     methods: {
         logout() {
-            axios.post('/api/logout').then(location.reload()).then(() => window.location.replace("http://localhost:8080/web/home.html"))
+            axios.post('/api/logout').then(location.reload()).then(() => window.location.replace("/web/home.html"))
         },
         createAccount() {
             Swal.fire({
@@ -90,7 +90,7 @@ let app = Vue.createApp({
             }).then((result) => {
                 if (result.isConfirmed) {
                     axios.post('/api/clients/current/cards', `cardColor=${this.color}&cardType=${this.type}&password=${this.password}`, { headers: { 'content-type': 'application/x-www-form-urlencoded' } }).then(
-                        Swal.fire('Card created!', '', 'success').then(() => window.location.replace("http://localhost:8080/web/cards.html")))
+                        Swal.fire('Card created!', '', 'success').then(() => window.location.replace("/web/cards.html")))
                         .catch(error => {
                             Swal.fire({
                                 icon: 'error',
@@ -119,7 +119,7 @@ let app = Vue.createApp({
                 if (result.isConfirmed) {
                     axios.post('/api/loans', `{"id": ${this.loanID},"amount": ${this.amount},"payments": ${this.payments},"destinyAccount": "${this.ownAccount}"}`, { headers: { "Content-Type": "application/json" } })
                     .then(()=>
-                    Swal.fire('Transfered!', '', 'success').then(() => window.location.replace("http://localhost:8080/web/accounts.html"))).catch(error => {
+                    Swal.fire('Transfered!', '', 'success').then(() => window.location.replace("/web/accounts.html"))).catch(error => {
                         Swal.fire({
                             icon: 'error',
                             title: error.response.data,

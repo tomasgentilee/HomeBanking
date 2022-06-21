@@ -118,14 +118,14 @@ let app = Vue.createApp({
             }).then((result) => {
                 if (result.isConfirmed) {
                     axios.post('/api/loans', `{"id": ${this.loanID},"amount": ${this.amount},"payments": ${this.payments},"destinyAccount": "${this.ownAccount}"}`, { headers: { "Content-Type": "application/json" } })
-                        .catch(error => {
-                            Swal.fire({
-                                icon: 'error',
-                                title: error.response.data,
-                                timer: 2000,
-                            })
+                    .then(()=>
+                    Swal.fire('Transfered!', '', 'success').then(() => window.location.replace("http://localhost:8080/web/accounts.html"))).catch(error => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: error.response.data,
+                            timer: 2000,
                         })
-                    Swal.fire('Transfered!', '', 'success').then(() => window.location.replace("http://localhost:8080/web/accounts.html"))
+                    })
 
                 }
             })
