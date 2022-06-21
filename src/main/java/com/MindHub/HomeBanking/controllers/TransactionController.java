@@ -68,7 +68,7 @@ public class TransactionController {
             return new ResponseEntity<>("You can't transfer to an inactive account", HttpStatus.FORBIDDEN);
         }
 
-        if (amount < 0 || amount.isNaN() || amount.isInfinite()){
+        if (amount <= 0 || amount.isNaN() || amount.isInfinite()){
             return new ResponseEntity<>("Incorrect amount value", HttpStatus.FORBIDDEN);
         }
 

@@ -53,9 +53,9 @@ let app = Vue.createApp({
                 denyButtonText: `Don't save`,
             }).then((result) => {
                 if (result.isConfirmed) {
-                    axios.post('/api/transactions', `ownAccountnumber='${this.ownAccount}'&description='${this.Description}'&amount=${this.amount}&numberAccountDestinatario='${this.destinyAccount}'`, { headers: { 'content-type': 'application/x-www-form-urlencoded' } }).then(
-                        Swal.fire('Transfered!', '', 'success').then(() => window.location.replace("http://localhost:8080/web/accounts.html")))
-                        .catch(error => {
+                axios.post('/api/transactions', `ownAccountnumber=${this.ownAccount}&description=${this.Description}&amount=${this.amount}&numberAccountDestinatario=${this.destinyAccount}`, { headers: { 'content-type': 'application/x-www-form-urlencoded' }})  
+                    .then(()=>
+                        Swal.fire('Transfered!', '', 'success').then(() => window.location.replace("http://localhost:8080/web/accounts.html"))).catch(error => {
                             Swal.fire({
                                 icon: 'error',
                                 title: error.response.data,
@@ -104,15 +104,17 @@ let app = Vue.createApp({
                 denyButtonText: `Don't save`,
             }).then((result) => {
                 if (result.isConfirmed) {
-                    axios.patch('/api/cardTransaction', `{"cardType": "CREDIT","amount": ${this.amount},"cardNumber": "${this.cardNumber}","cardHolder": "${this.cardHolder}","cvv": "${this.cvv}","thruDate": "${this.thruDate}","description": "${this.description}","accountNumber": "${this.accountNumberFunds}"}`, { headers: { "Content-Type": "application/json" } }).then(
-                        Swal.fire('Transfered!', '', 'success').then(() => window.location.replace("http://localhost:8080/web/Cards.html")))
-                        .catch(error => {
-                            Swal.fire({
-                                icon: 'error',
-                                title: error.response.data,
-                                timer: 2000,
-                            })
+                    axios.patch('/api/cardTransaction', `{"cardType": "CREDIT","amount": ${this.amount},"cardNumber": "${this.cardNumber}","cardHolder": "${this.cardHolder}","cvv": "${this.cvv}","thruDate": "${this.thruDate}","description": "${this.description}","accountNumber": "${this.accountNumberFunds}"}`, { headers: { "Content-Type": "application/json" } })
+                    
+
+                    .then(()=>
+                    Swal.fire('Transfered!', '', 'success').then(() => window.location.replace("http://localhost:8080/web/Cards.html"))).catch(error => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: error.response.data,
+                            timer: 2000,
                         })
+                    })
                 }
             })
         },
@@ -125,15 +127,15 @@ let app = Vue.createApp({
                 denyButtonText: `Don't save`,
             }).then((result) => {
                 if (result.isConfirmed) {
-                    axios.patch('/api/cardTransaction', `{"cardType": "DEBIT","amount": ${this.amount},"cardNumber": "${this.cardNumber}","cardHolder": "${this.cardHolder}","cvv": "${this.cvv}","thruDate": "${this.thruDate}","description": "${this.description}","accountNumber": "${this.accountNumberFunds}"}`, { headers: { "Content-Type": "application/json" } }).then(
-                        Swal.fire('Transfered!', '', 'success').then(() => window.location.replace("http://localhost:8080/web/accounts.html")))
-                        .catch(error => {
-                            Swal.fire({
-                                icon: 'error',
-                                title: error.response.data,
-                                timer: 2000,
-                            })
+                    axios.patch('/api/cardTransaction', `{"cardType": "DEBIT","amount": ${this.amount},"cardNumber": "${this.cardNumber}","cardHolder": "${this.cardHolder}","cvv": "${this.cvv}","thruDate": "${this.thruDate}","description": "${this.description}","accountNumber": "${this.accountNumberFunds}"}`, { headers: { "Content-Type": "application/json" } }) 
+                    .then(()=>
+                    Swal.fire('Transfered!', '', 'success').then(() => window.location.replace("http://localhost:8080/web/Cards.html"))).catch(error => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: error.response.data,
+                            timer: 2000,
                         })
+                    })
                 }
             })
         }

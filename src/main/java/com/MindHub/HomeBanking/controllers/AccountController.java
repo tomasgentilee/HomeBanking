@@ -29,7 +29,6 @@ public class AccountController {
     private ClientService clientService;
     @Autowired
     private AccountService accountService;
-
     @Autowired
     private PasswordEncoder passwordEncoder;
 

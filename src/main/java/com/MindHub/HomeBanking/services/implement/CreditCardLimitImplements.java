@@ -22,6 +22,6 @@ public class CreditCardLimitImplements implements CreditCardLimitService {
 
     @Override
     public CreditCardLimit getDebit(Long id) {
-        return creditCardLimitRepository.getOne(id);
+        return creditCardLimitRepository.findById(id).orElse(null);
     }
 }
