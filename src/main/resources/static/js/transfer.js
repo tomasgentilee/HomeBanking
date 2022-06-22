@@ -55,11 +55,13 @@ let app = Vue.createApp({
                 if (result.isConfirmed) {
                 axios.post('/api/transactions', `ownAccountnumber=${this.ownAccount}&description=${this.Description}&amount=${this.amount}&numberAccountDestinatario=${this.destinyAccount}`, { headers: { 'content-type': 'application/x-www-form-urlencoded' }})  
                     .then(()=>
-                        Swal.fire('Transfered!', '', 'success').then(() => window.location.replace("/web/accounts.html"))).catch(error => {
-                            Swal.fire({
-                                icon: 'error',
-                                title: error.response.data,
-                                timer: 2000,
+                        Swal.fire('Transfered!', '', 'success').then(() => window.location.replace("/web/accounts.html")))
+                        
+                    .catch(error => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: error.response.data,
+                            timer: 2000,
                             })
                         })
                 }
@@ -105,10 +107,9 @@ let app = Vue.createApp({
             }).then((result) => {
                 if (result.isConfirmed) {
                     axios.patch('/api/cardTransaction', `{"cardType": "CREDIT","amount": ${this.amount},"cardNumber": "${this.cardNumber}","cardHolder": "${this.cardHolder}","cvv": "${this.cvv}","thruDate": "${this.thruDate}","description": "${this.description}","accountNumber": "${this.accountNumberFunds}"}`, { headers: { "Content-Type": "application/json" } })
-                    
-
                     .then(()=>
-                    Swal.fire('Transfered!', '', 'success').then(() => window.location.replace("/web/Cards.html"))).catch(error => {
+                    Swal.fire('Transfered!', '', 'success').then(() => window.location.replace("/web/Cards.html")))
+                    .catch(error => {
                         Swal.fire({
                             icon: 'error',
                             title: error.response.data,

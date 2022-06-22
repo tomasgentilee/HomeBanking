@@ -12,11 +12,10 @@ Vue.createApp({
         const myParam = urlParams.get('id');
         this.id = myParam
 
-        axios.get("http://localhost:8080/api/clientLoans/" + myParam)
+        axios.get("/api/clientLoans/" + myParam)
             .then(datos => {
                 this.loan = datos.data;
                 this.payment = datos.data.payment;
-                console.log(this.loan)
             })
     },
 
@@ -26,7 +25,7 @@ Vue.createApp({
     methods: {
         deletCard() {
             (axios.patch('/api/clients/current/cards', `password=${this.password}&id=${this.id}`, { headers: { 'content-type': 'application/x-www-form-urlencoded' } }).then(
-                Swal.fire('Deleted!', '', 'success').then(() => window.location.replace("http://localhost:8080/web/cards.html"))))
+                Swal.fire('Deleted!', '', 'success').then(() => window.location.replace("/web/cards.html"))))
                 .catch(error => {
                     Swal.fire({
                         icon: 'error',
@@ -49,7 +48,7 @@ Vue.createApp({
             })
         },
         logout() {
-            axios.post('/api/logout').then(location.reload()).then(() => window.location.replace("http://localhost:8080/web/home.html"))
+            axios.post('/api/logout').then(location.reload()).then(() => window.location.replace("/web/home.html"))
         },
         showAlert() {
             Swal.fire({

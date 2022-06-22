@@ -18,7 +18,7 @@ Vue.createApp({
     },
 
     created() {
-        axios.get("http://localhost:8080/rest/clients/current")
+        axios.get("/rest/clients/current")
             .then(datos => {
                 this.clients = datos.data._embedded.clients;
                 this.completeJson = datos.data;
@@ -38,12 +38,10 @@ Vue.createApp({
                     apellido: this.client.apellido,
                     email: this.client.email,
                 }
-                axios.post("http://localhost:8080/rest/clients/current", this.client)
+                axios.post("/rest/clients/current", this.client)
                     .then(client => {
-                        console.log(client);
                     })
                     .catch(function (error) {
-                        console.log(error);
                     });
                 location.reload()
             }
@@ -58,7 +56,6 @@ Vue.createApp({
             }
             axios.put(URL, cliente)
             .then(client => {
-                console.log(client);
                 location.reload()
             })
         },
@@ -66,11 +63,7 @@ Vue.createApp({
             let URL = cliente._links.client.href
             axios.delete(URL)
             .then(client => {
-                console.log(client);
                 location.reload()
-            })
-            .catch(function (error) {
-                console.log(error);
             });
         }
 

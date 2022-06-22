@@ -21,7 +21,7 @@ let app = Vue.createApp({
     },
 
     created() {
-        axios.get("http://localhost:8080/api/clients/current")
+        axios.get("/api/clients/current")
             .then(datos => {
                 this.clients = datos.data;
                 this.accounts = datos.data.accounts;
@@ -35,7 +35,7 @@ let app = Vue.createApp({
 
     methods: {
         logout() {
-            axios.post('/api/logout').then(location.reload()).then(() => window.location.replace("http://localhost:8080/web/home.html"))
+            axios.post('/api/logout').then(location.reload()).then(() => window.location.replace("/web/home.html"))
         },
         transfer() {
             axios.post('/api/transactions', `ownAccountnumber=${this.ownAccount}&description=${this.Description}&amount=${this.amount}&numberAccountDestinatario=${this.destinyAccount}`, { headers: { 'content-type': 'application/x-www-form-urlencoded' } })
@@ -55,7 +55,7 @@ let app = Vue.createApp({
                 if (result.isConfirmed) {
                 axios.post('/api/transactions', `ownAccountnumber=${this.ownAccount}&description=${this.Description}&amount=${this.amount}&numberAccountDestinatario=${this.destinyAccount}`, { headers: { 'content-type': 'application/x-www-form-urlencoded' }})  
                     .then(()=>
-                        Swal.fire('Transfered!', '', 'success').then(() => window.location.replace("http://localhost:8080/web/accounts.html"))).catch(error => {
+                        Swal.fire('Transfered!', '', 'success').then(() => window.location.replace("/web/accounts.html"))).catch(error => {
                             Swal.fire({
                                 icon: 'error',
                                 title: error.response.data,
@@ -108,7 +108,7 @@ let app = Vue.createApp({
                     
 
                     .then(()=>
-                    Swal.fire('Transfered!', '', 'success').then(() => window.location.replace("http://localhost:8080/web/Cards.html"))).catch(error => {
+                    Swal.fire('Transfered!', '', 'success').then(() => window.location.replace("/web/Cards.html"))).catch(error => {
                         Swal.fire({
                             icon: 'error',
                             title: error.response.data,
@@ -129,7 +129,7 @@ let app = Vue.createApp({
                 if (result.isConfirmed) {
                     axios.patch('/api/cardTransaction', `{"cardType": "DEBIT","amount": ${this.amount},"cardNumber": "${this.cardNumber}","cardHolder": "${this.cardHolder}","cvv": "${this.cvv}","thruDate": "${this.thruDate}","description": "${this.description}","accountNumber": "${this.accountNumberFunds}"}`, { headers: { "Content-Type": "application/json" } }) 
                     .then(()=>
-                    Swal.fire('Transfered!', '', 'success').then(() => window.location.replace("http://localhost:8080/web/Cards.html"))).catch(error => {
+                    Swal.fire('Transfered!', '', 'success').then(() => window.location.replace("/web/Cards.html"))).catch(error => {
                         Swal.fire({
                             icon: 'error',
                             title: error.response.data,

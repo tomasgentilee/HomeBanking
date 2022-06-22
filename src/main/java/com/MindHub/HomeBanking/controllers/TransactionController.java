@@ -127,13 +127,14 @@ public class TransactionController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @CrossOrigin
     @Transactional
     @PatchMapping("/cardTransaction")
     public ResponseEntity<Object> newTransaction(
             @RequestBody PaymentDTO paymentDTO,
             Authentication authentication){
 
-        Client currentClient = clientService.getCurrentClient(authentication);
+
 
         Account ownAccount = accountService.findByNumber(paymentDTO.getAccountNumber());
 
