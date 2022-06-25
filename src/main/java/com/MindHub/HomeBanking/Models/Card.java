@@ -34,6 +34,10 @@ public class Card {
     @JoinColumn(name="cardLimit_id")
     private CreditCardLimit creditCardLimit;
 
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="account_id")
+    private Account account;
+
     @OneToMany(mappedBy = "card", fetch=FetchType.EAGER)
     private Set<Transaction> transactions = new HashSet<>();
 
@@ -52,14 +56,36 @@ public class Card {
         this.creditCardLimit = creditCardLimit;
     }
 
+    public Card(CardColor cardColor, CardType cardType, String cardHolder, String cardNumber, long cvv, LocalDateTime fromDate, LocalDateTime thruDate, Client client, Account account){
+        this.active = true;
+        this.cardColor = cardColor;
+        this.cardType = cardType;
+        this.cardHolder = cardHolder;
+        this.cardNumber = cardNumber;
+        this.cvv = cvv;
+        this.fromDate = fromDate;
+        this.thruDate = thruDate;
+        this.client = client;
+        this.account = account;
+    }
+
+
     public long getId() {
         return id;
     }
 
-
     public Set<Transaction> getTransactions() {
         return transactions;
     }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
     public void setTransactions(Set<Transaction> transactions) {
         this.transactions = transactions;
     }
@@ -132,5 +158,10 @@ public class Card {
     }
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    public void addTransaction (Transaction transaction){
+        transaction.setCard(this);
+        transactions.add(transaction);
     }
 }

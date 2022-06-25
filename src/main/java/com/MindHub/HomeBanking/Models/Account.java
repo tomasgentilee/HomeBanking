@@ -30,6 +30,9 @@ public class Account {
     @OneToMany(mappedBy = "account", fetch=FetchType.EAGER)
     private Set<Transaction> transactions = new HashSet<>();
 
+    @OneToOne(mappedBy = "account", fetch=FetchType.EAGER)
+    private Card card;
+
     public Account(){}
 
     public Account(String number, double balance, LocalDateTime creationDate, Client client, AccountType accountType){

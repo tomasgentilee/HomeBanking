@@ -78,7 +78,7 @@ Vue.createApp({
             })
         },
         exportPDF() {
-
+            
             this.transactions.forEach(transaction => {
 
               let fila = {

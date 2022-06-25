@@ -1,10 +1,12 @@
 package com.MindHub.HomeBanking.controllers;
 
+import com.MindHub.HomeBanking.Datos.CardCreditDTO;
 import com.MindHub.HomeBanking.Datos.CardDTO;
 import com.MindHub.HomeBanking.Models.*;
 import com.MindHub.HomeBanking.Repository.ClientRepository;
 import com.MindHub.HomeBanking.Repository.CreditCardLimitRepository;
 import com.MindHub.HomeBanking.Utils.CardUtils;
+import com.MindHub.HomeBanking.services.AccountService;
 import com.MindHub.HomeBanking.services.CardService;
 import com.MindHub.HomeBanking.services.ClientService;
 import com.MindHub.HomeBanking.services.CreditCardLimitService;
@@ -17,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -27,6 +30,9 @@ public class CardController {
 
     @Autowired
     private CreditCardLimitService creditCardLimitService;
+
+    @Autowired
+    private AccountService accountService;
 
     @Autowired
     private CardService cardService;
@@ -44,13 +50,20 @@ public class CardController {
 
     }
 
-    @Autowired
-    private ClientRepository clientRepository;
+    @GetMapping("/cards")
+    public List<CardDTO> getCardsDTO(){
+        return cardService.getCardsDTO();
+    }
+
+    @GetMapping("/cards/credit")
+    public List<CardCreditDTO> getCardsCreditDTO(){
+        return cardService.getCardsCreditDTO();
+    }
 
     @Transactional
     @PostMapping("/clients/current/cards")
     public ResponseEntity<Object> newCard(Authentication authentication,
-    @RequestParam CardColor cardColor, @RequestParam CardType cardType, @RequestParam String password) {
+    @RequestParam CardColor cardColor, @RequestParam CardType cardType, @RequestParam String password, @RequestParam String linkedAccount) {
 
         Client currentClient = clientService.getCurrentClient(authentication);
 
@@ -58,14 +71,18 @@ public class CardController {
 
         CreditCardLimit creditCardLimit = creditCardLimitService.getCurrentLimit(cardType, cardColor);
 
-        CreditCardLimit debitLimit = creditCardLimitService.getDebit(4L);
+        Account associatedAccount = accountService.findByNumber(linkedAccount);
 
         if (!passwordEncoder.matches(password, currentClient.getPassword())){
             return new ResponseEntity<>("Incorrect password", HttpStatus.FORBIDDEN);
         }
 
-        if (cards.size() >= 3){
-            return new ResponseEntity<>("You already have 3 cards of this type", HttpStatus.FORBIDDEN);
+        if (cards.size() >= 1){
+            return new ResponseEntity<>("You already have 1 card of this type", HttpStatus.FORBIDDEN);
+        }
+
+        if (associatedAccount.isActive() == false){
+            return new ResponseEntity<>("This is not a valid account", HttpStatus.FORBIDDEN);
         }
 
         String cardNumber = CardUtils.getCardNumber(1000, 9999);
@@ -77,32 +94,11 @@ public class CardController {
         }
 
         if (cardType == CardType.DEBIT){
-            cardService.saveCards(new Card(cardColor, cardType, currentClient.getName() + " " + currentClient.getLastName(), cardNumber, cvv, LocalDateTime.now(), LocalDateTime.now().plusYears(5), currentClient, debitLimit));
+            cardService.saveCards(new Card(cardColor, cardType, currentClient.getName() + " " + currentClient.getLastName(), cardNumber, cvv, LocalDateTime.now(), LocalDateTime.now().plusYears(5), currentClient, associatedAccount));
         }
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
-
-
-//    @DeleteMapping("/clients/current/cards")
-//    public ResponseEntity<Object> deleteCard(Authentication authentication, @RequestParam String cardNumber) {
-//
-//        Client currentClient = clientRepository.findByEmail(authentication.getName());
-//
-//        Card currentCard = currentClient.getCards().stream().filter(card -> card.getCardNumber() == cardNumber).findFirst().orElse(null);
-//
-//        if (currentCard == null) {
-//            return new ResponseEntity<>("This card does not exist", HttpStatus.FORBIDDEN);
-//        }
-//
-//        if(!currentClient.getCards().contains(currentCard)){
-//            return new ResponseEntity<>("You do not own this card", HttpStatus.FORBIDDEN);
-//        }
-//
-//        cardRepository.delete(currentCard);
-//
-//        return new ResponseEntity<>("Card deleted", HttpStatus.OK);
-//    }
 
     @Transactional
     @PatchMapping("/clients/current/cards")

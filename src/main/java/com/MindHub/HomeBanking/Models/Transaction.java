@@ -35,23 +35,19 @@ public class Transaction {
     public Transaction(){}
 
     public Transaction(String description, double amount, LocalDateTime date, TransactionType Type , Account account) {
-
         this.description = description;
         this.amount = amount;
         this.date = date;
         this.Type = Type;
         this.account = account;
-
     }
 
     public Transaction(String description, double amount, LocalDateTime date, TransactionType Type, Card card) {
-
         this.description = description;
         this.amount = amount;
         this.date = date;
         this.Type = Type;
         this.card = card;
-
     }
 
     public long getId() {

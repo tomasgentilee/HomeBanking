@@ -25,8 +25,6 @@ public class ClientController {
     private ClientService clientService;
     @Autowired
     private AccountService accountService;
-
-
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -35,9 +33,7 @@ public class ClientController {
 
     @GetMapping("/clients")
     public List<ClientDTO> getClients(){
-
         return clientService.getClientsDTO();
-
     }
 
     @GetMapping("/clients/{id}")

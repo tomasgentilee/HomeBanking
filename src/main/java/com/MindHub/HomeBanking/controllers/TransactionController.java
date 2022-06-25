@@ -32,9 +32,6 @@ public class TransactionController {
     private TransactionService transactionService;
 
     @Autowired
-    private CardRepository cardRepository;
-
-    @Autowired
     private CardService cardService;
 
     @GetMapping("/transactions")
@@ -44,7 +41,7 @@ public class TransactionController {
 
     @Transactional
     @PostMapping("/transactions")
-    public ResponseEntity<Object> register(
+    public ResponseEntity<Object> transactionAccount(
 
             Authentication authentication,
 
@@ -131,15 +128,9 @@ public class TransactionController {
     @Transactional
     @PatchMapping("/cardTransaction")
     public ResponseEntity<Object> newTransaction(
-            @RequestBody PaymentDTO paymentDTO,
-            Authentication authentication){
+            @RequestBody PaymentDTO paymentDTO){
 
-
-
-        Account ownAccount = accountService.findByNumber(paymentDTO.getAccountNumber());
-
-        Card currentCard = cardRepository.findByCardNumber(paymentDTO.getCardNumber());
-
+        Card currentCard = cardService.getCardByNumber(paymentDTO.getCardNumber());
 
         if(currentCard.getCardType() == CardType.CREDIT){
             if(paymentDTO.getCardNumber().isEmpty() || paymentDTO.getCardHolder().isEmpty() || paymentDTO.getCardType() == null){
@@ -183,6 +174,9 @@ public class TransactionController {
         }
 
         if (currentCard.getCardType() == CardType.DEBIT){
+
+            Account cardAccount = cardService.getCardAccount(paymentDTO.getCardNumber());
+
             if(currentCard.getCardNumber() == null){
                 return new ResponseEntity<>("This card doesn't exist", HttpStatus.FORBIDDEN);
             }
@@ -202,15 +196,18 @@ public class TransactionController {
             if(paymentDTO.getAmount() <= 0){
                 return new ResponseEntity<>("This is not a valid amount", HttpStatus.FORBIDDEN);
             }
-            if(paymentDTO.getAmount() > ownAccount.getBalance()){
+            if(paymentDTO.getAmount() > cardAccount.getBalance()){
                 return new ResponseEntity<>("You exceed the max amount", HttpStatus.FORBIDDEN);
             }
 
-            Transaction Debit = new Transaction(paymentDTO.getDescription(), paymentDTO.getAmount(), LocalDateTime.now(), TransactionType.DEBITO, currentCard);
+            Transaction Debit = new Transaction(paymentDTO.getDescription(), paymentDTO.getAmount() * -1, LocalDateTime.now(), TransactionType.DEBITO, cardAccount);
             transactionService.saveTransaction(Debit);
 
-            ownAccount.setBalance(ownAccount.getBalance() - paymentDTO.getAmount());
-            accountService.saveAccount(ownAccount);
+            Transaction DebitInCard = new Transaction(paymentDTO.getDescription(), paymentDTO.getAmount(), LocalDateTime.now(), TransactionType.DEBITO, currentCard);
+            transactionService.saveTransaction(DebitInCard);
+
+            cardAccount.setBalance(cardAccount.getBalance() - paymentDTO.getAmount());
+            accountService.saveAccount(cardAccount);
 
         }
 

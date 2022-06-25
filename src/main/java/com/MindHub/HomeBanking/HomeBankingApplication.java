@@ -9,7 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -67,16 +66,13 @@ public class HomeBankingApplication {
 			CreditCardLimit limitBlack = new CreditCardLimit(CardColor.BLACK, 200000.00, 200000.00);
 			creditCardLimitRepository.save(limitBlack);
 
-			CreditCardLimit limitDebit = new CreditCardLimit(99999999999999999.00*9999999);
-			creditCardLimitRepository.save(limitDebit);
-
 			CreditCardLimit limitTitanium = new CreditCardLimit(CardColor.TITANIUM, 400000.00, 400000.00);
 			creditCardLimitRepository.save(limitTitanium);
 
 			Card card1 = new Card(CardColor.GOLD, CardType.CREDIT, "Melba Morel", "1111-1111-1111-1111", 666, LocalDateTime.now(), LocalDateTime.now().plusYears(5),client1, limitGold);
 			cardRepository.save(card1);
 
-			Card card2 = new Card(CardColor.TITANIUM, CardType.DEBIT, "Melba Morel", "2222-2222-2222-2222", 777, LocalDateTime.now(), LocalDateTime.now().plusYears(5),client1, limitTitanium);
+			Card card2 = new Card(CardColor.TITANIUM, CardType.DEBIT, "Melba Morel", "2222-2222-2222-2222", 777, LocalDateTime.now(), LocalDateTime.now().plusYears(5),client1, account1);
 			cardRepository.save(card2);
 
 

@@ -4,14 +4,13 @@ import com.MindHub.HomeBanking.Models.Card;
 import com.MindHub.HomeBanking.Models.CardColor;
 import com.MindHub.HomeBanking.Models.CardType;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class CardDTO {
+public class CardCreditDTO {
     private long id;
 
     private CardColor cardColor;
@@ -20,12 +19,14 @@ public class CardDTO {
 
     private String cardHolder, cardNumber;
 
+    private  double creditCardLimit, availableBalance;
+
     private Set<TransactionDTO> transactions = new HashSet<>();
     private long cvv;
 
     private String fromDate, thruDate;
 
-    public CardDTO(Card card) {
+    public CardCreditDTO(Card card) {
         this.id = card.getId();
         this.cardColor = card.getCardColor();
         this.cardType = card.getCardType();
@@ -34,6 +35,8 @@ public class CardDTO {
         this.cvv = card.getCvv();
         this.fromDate = card.getFromDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT));;
         this.thruDate = card.getThruDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT));;
+        this.creditCardLimit = card.getCreditCardLimit().getCardLimit();
+        this.availableBalance = card.getCreditCardLimit().getAvailableBalance();
         this.transactions = card.getTransactions().stream().filter(transaction1 -> card.isActive() == true).map(TransactionDTO::new).collect(Collectors.toSet());
     }
 
@@ -59,6 +62,14 @@ public class CardDTO {
 
     public Set<TransactionDTO> getTransactions() {
         return transactions;
+    }
+
+    public double getCreditCardLimit() {
+        return creditCardLimit;
+    }
+
+    public double getAvailableBalance() {
+        return availableBalance;
     }
 
     public long getCvv() {

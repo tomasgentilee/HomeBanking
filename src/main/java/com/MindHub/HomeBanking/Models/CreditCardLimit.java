@@ -27,10 +27,6 @@ public class CreditCardLimit {
         this.availableBalance = availableBalance;
     }
 
-    public CreditCardLimit(double cardLimit) {
-        this.cardLimit = cardLimit;
-    }
-
     public long getId() {
         return id;
     }
