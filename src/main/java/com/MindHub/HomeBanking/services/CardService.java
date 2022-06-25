@@ -21,4 +21,6 @@ public interface CardService {
 
     Card getCardByNumber(String card);
 
+    Card getLinkedAccount(Account account);
+
 }

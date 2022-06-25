@@ -49,4 +49,9 @@ public class CardServiceImplements implements CardService {
     public Card getCardByNumber(String card) {
         return cardRepository.findByCardNumber(card);
     }
+
+    @Override
+    public Card getLinkedAccount(Account account) {
+        return cardRepository.findAll().stream().filter(card1 -> card1.getAccount() == account).findFirst().orElse(null);
+    }
 }
