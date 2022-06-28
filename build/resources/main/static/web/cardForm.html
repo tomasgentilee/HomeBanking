@@ -82,6 +82,12 @@
                       <input label="DEBIT" type="radio" name="gender" v-model="type" value="DEBIT">
                     </div>
 
+                    <div class="col-md-12 mt-3" v-show="type == DEBIT">
+                      <select name="" id="">
+                        <option v-for="account in accounts" value="">{{account.number}}</option>
+                      </select>
+                    </div>
+
                     <div class="radio">
                       <input label="TITANIUM" type="radio" @click="classToggle('cardTitanium')" v-model="color" value="TITANIUM">
                       <input label="GOLD" type="radio" @click="classToggle('cardGold')" v-model="color" value="GOLD">

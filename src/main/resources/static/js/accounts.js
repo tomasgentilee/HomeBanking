@@ -8,6 +8,7 @@ let app = Vue.createApp({
             cards: [],
             color: [],
             type: [],
+            linkedAccount: [],
             password: [],
             ownAccount: [],
             destinyAccount: [],
@@ -37,6 +38,7 @@ let app = Vue.createApp({
                 this.cards = datos.data.cards.sort(function (a, b) {
                     return a.id - b.id
                 });
+                console.log(this.type)
             });
         axios.get("/api/loans")
             .then(datos => {
@@ -88,7 +90,7 @@ let app = Vue.createApp({
                 denyButtonText: `Don't save`,
             }).then((result) => {
                 if (result.isConfirmed) {
-                    axios.post('/api/clients/current/cards', `cardColor=${this.color}&cardType=${this.type}&password=${this.password}`, { headers: { 'content-type': 'application/x-www-form-urlencoded' } }).then(
+                    axios.post('/api/clients/current/cards', `cardColor=${this.color}&cardType=${this.type}&password=${this.password}&linkedAccount=${this.linkedAccount}`, { headers: { 'content-type': 'application/x-www-form-urlencoded' } }).then(
                         Swal.fire('Card created!', '', 'success').then(() => window.location.replace("/web/cards.html")))
                         .catch(error => {
                             Swal.fire({

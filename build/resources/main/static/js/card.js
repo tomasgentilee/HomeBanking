@@ -21,9 +21,14 @@ Vue.createApp({
             .then(datos => {
                 this.card = datos.data;
                 this.cardType = datos.data.cardType;
-                this.cardLimit = datos.data.creditCardLimit;
                 this.transactions = datos.data.transactions;
             })
+        axios.get("api/cards/credit/" + myParam)
+            .then(datos => {
+                this.cardLimit = datos.data.creditCardLimit;
+                console.log(this.cardLimit)
+            })
+            
     },
 
     computed: {

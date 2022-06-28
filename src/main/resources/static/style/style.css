@@ -1428,3 +1428,7 @@ input::-webkit-inner-spin-button {
   .spanInfoHover:hover:before {
 	transform: translateY(10px)
   }
+
+.rowDivs40{
+	width: 50%;
+}

@@ -26,8 +26,8 @@ public class CardServiceImplements implements CardService {
     }
 
     @Override
-    public List<CardCreditDTO> getCardsCreditDTO() {
-        return cardRepository.findAll().stream().filter(card -> card.getCardType() == CardType.DEBIT).map(CardCreditDTO::new).collect(toList());
+    public CardCreditDTO getCardsCreditDTO(long id) {
+        return cardRepository.findById(id).map(CardCreditDTO::new).orElse(null);
     }
 
     @Override

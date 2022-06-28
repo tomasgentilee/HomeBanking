@@ -8,7 +8,7 @@ Vue.createApp({
             cardType: "",
             password: [],
             cardLimit: [],
-            transactionsPdf:[],
+            transactionsPdf: [],
         }
     },
 
@@ -21,9 +21,14 @@ Vue.createApp({
             .then(datos => {
                 this.card = datos.data;
                 this.cardType = datos.data.cardType;
-                this.cardLimit = datos.data.creditCardLimit;
                 this.transactions = datos.data.transactions;
             })
+        axios.get("api/cards/credit/" + myParam)
+            .then(datos => {
+                this.cardLimit = datos.data.creditCardLimit;
+                console.log(this.cardLimit)
+            })
+
     },
 
     computed: {
@@ -78,31 +83,31 @@ Vue.createApp({
             })
         },
         exportPDF() {
-            
+
             this.transactions.forEach(transaction => {
 
-              let fila = {
-                  DATE: `${transaction.date}`, 
-                  description: `${transaction.description}`, 
-                  TYPE: `${transaction.type}`, 
-                  amount: `${transaction.amount}`
-              }
-               this.transactionsPdf.push(fila);
-           });
-      
+                let fila = {
+                    DATE: `${transaction.date}`,
+                    description: `${transaction.description}`,
+                    TYPE: `${transaction.type}`,
+                    amount: `${transaction.amount}`
+                }
+                this.transactionsPdf.push(fila);
+            });
+
             var columns = [
-              {title: "DATE", dataKey: "DATE"},
-              {title: "TYPE", dataKey: "TYPE"},
-              {title: "Amount", dataKey: "amount"},
-              {title: "Description", dataKey: "description"},
+                { title: "DATE", dataKey: "DATE" },
+                { title: "TYPE", dataKey: "TYPE" },
+                { title: "Amount", dataKey: "amount" },
+                { title: "Description", dataKey: "description" },
             ];
             var doc = new jsPDF('p', 'pt');
             doc.text(`${this.card.cardNumber} transactions list`, 40, 40);
             doc.autoTable(columns, this.transactionsPdf, {
-              margin: {top: 60},
+                margin: { top: 60 },
             });
             doc.save('todos.pdf');
-          }, 
+        },
         showAlertFooter() {
             Swal.fire({
                 title: 'Terms',

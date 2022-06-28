@@ -55,9 +55,9 @@ public class CardController {
         return cardService.getCardsDTO();
     }
 
-    @GetMapping("/cards/credit")
-    public List<CardCreditDTO> getCardsCreditDTO(){
-        return cardService.getCardsCreditDTO();
+    @GetMapping("/cards/credit/{id}")
+    public CardCreditDTO getCardsCreditDTO(@PathVariable Long id){
+        return cardService.getCardsCreditDTO(id);
     }
 
     @Transactional

@@ -14,7 +14,6 @@ let app = Vue.createApp({
             cardHolder: "",
             thruDate: "",
             description: "",
-            accountNumberFunds: "",
             cvv: [],
 
         }
@@ -128,7 +127,7 @@ let app = Vue.createApp({
                 denyButtonText: `Don't save`,
             }).then((result) => {
                 if (result.isConfirmed) {
-                    axios.patch('/api/cardTransaction', `{"cardType": "DEBIT","amount": ${this.amount},"cardNumber": "${this.cardNumber}","cardHolder": "${this.cardHolder}","cvv": "${this.cvv}","thruDate": "${this.thruDate}","description": "${this.description}","accountNumber": "${this.accountNumberFunds}"}`, { headers: { "Content-Type": "application/json" } }) 
+                    axios.patch('/api/cardTransaction', `{"cardType": "DEBIT","amount": ${this.amount},"cardNumber": "${this.cardNumber}","cardHolder": "${this.cardHolder}","cvv": "${this.cvv}","thruDate": "${this.thruDate}","description": "${this.description}"}`, { headers: { "Content-Type": "application/json" } }) 
                     .then(()=>
                     Swal.fire('Transfered!', '', 'success').then(() => window.location.replace("/web/Cards.html"))).catch(error => {
                         Swal.fire({

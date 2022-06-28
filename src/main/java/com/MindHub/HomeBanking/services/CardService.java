@@ -11,7 +11,7 @@ public interface CardService {
 
     List<CardDTO> getCardsDTO();
 
-    List<CardCreditDTO> getCardsCreditDTO();
+    CardCreditDTO getCardsCreditDTO(long id);
 
     CardDTO getCardDTO(long id);
 
