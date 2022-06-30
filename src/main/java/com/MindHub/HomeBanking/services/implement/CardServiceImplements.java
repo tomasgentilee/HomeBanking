@@ -26,12 +26,12 @@ public class CardServiceImplements implements CardService {
     }
 
     @Override
-    public CardCreditDTO getCardsCreditDTO(long id) {
-        return cardRepository.findById(id).map(CardCreditDTO::new).orElse(null);
+    public CardCreditDTO getCardsCreditDTO(Long id) {
+        return cardRepository.findAll().stream().filter(card -> card.getId() == id && card.getCardType() == CardType.CREDIT).map(CardCreditDTO::new).findFirst().orElse(null);
     }
 
     @Override
-    public CardDTO getCardDTO(long id) {
+    public CardDTO getCardDTO(Long id) {
         return cardRepository.findById(id).map(CardDTO::new).orElse(null);
     }
 

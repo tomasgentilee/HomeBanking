@@ -11,9 +11,9 @@ public interface CardService {
 
     List<CardDTO> getCardsDTO();
 
-    CardCreditDTO getCardsCreditDTO(long id);
+    CardCreditDTO getCardsCreditDTO(Long id);
 
-    CardDTO getCardDTO(long id);
+    CardDTO getCardDTO(Long id);
 
     void saveCards(Card card);
 

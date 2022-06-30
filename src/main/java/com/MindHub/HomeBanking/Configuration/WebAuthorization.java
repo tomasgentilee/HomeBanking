@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
+import org.springframework.web.cors.CorsConfiguration;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,7 +26,7 @@ class WebAuthorization extends WebSecurityConfigurerAdapter {
 
                 .antMatchers("/admin/**", "/manager.html", "/h2-console/**").hasAuthority("ADMIN")
 
-                .antMatchers("/web/*", "/clients/current", "/api/clientLoans/**", "/api/clients/current/cards").hasAuthority("CLIENT")
+                .antMatchers("/web/*", "/clients/current", "/api/clientLoans/**", "/api/clients/current/cards", "/api/cards/credit/*").hasAuthority("CLIENT")
 
                 .antMatchers(HttpMethod.POST, "/api/clients/current/accounts").hasAuthority("CLIENT")
 
@@ -42,6 +43,8 @@ class WebAuthorization extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.PATCH, "/api/cardTransaction").hasAuthority("CLIENT")
 
                 .antMatchers(HttpMethod.PATCH, "/api/clients/current/accounts").hasAuthority("CLIENT")
+
+                .antMatchers(HttpMethod.POST, "/api/cardTransaction").permitAll()
         ;
 
 
@@ -79,6 +82,9 @@ class WebAuthorization extends WebSecurityConfigurerAdapter {
         // if logout is successful, just send a success response
 
         http.logout().logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());
+
+        //cross origin (conectar con otras apps)
+        http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
     }
 
     private void clearAuthenticationAttributes (HttpServletRequest request){

@@ -17,17 +17,19 @@ Vue.createApp({
         const myParam = urlParams.get('id');
         this.id = myParam
 
+        axios.get("api/cards/credit/" + myParam)
+            .then(datos => {
+                data = datos.data;
+                console.log(data)
+            })
+
         axios.get("/api/cards/" + myParam)
             .then(datos => {
                 this.card = datos.data;
                 this.cardType = datos.data.cardType;
                 this.transactions = datos.data.transactions;
             })
-        axios.get("api/cards/credit/" + myParam)
-            .then(datos => {
-                this.cardLimit = datos.data.creditCardLimit;
-                console.log(this.cardLimit)
-            })
+    
 
     },
 

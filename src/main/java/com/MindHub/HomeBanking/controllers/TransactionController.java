@@ -126,7 +126,7 @@ public class TransactionController {
 
     @CrossOrigin
     @Transactional
-    @PatchMapping("/cardTransaction")
+    @PostMapping("/cardTransaction")
     public ResponseEntity<Object> newTransaction(
             @RequestBody PaymentDTO paymentDTO){
 

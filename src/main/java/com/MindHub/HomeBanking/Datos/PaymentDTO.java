@@ -12,7 +12,6 @@ public class PaymentDTO {
 
     private double amount;
 
-
     public PaymentDTO(){}
 
     public PaymentDTO(CardType cardType, String cardHolder, String cardNumber, long cvv, double amount, String thruDate, String description) {
