@@ -33,10 +33,15 @@ public class HomeBankingApplication {
 			Client admin = new Client("Tomas", "Gentile", "tomigentile@gmail.com", passwordEncoder.encode("melba123"));
 			clientRepository.save(admin);
 
+			Client kobe = new Client("Kobe", "Store", "tomigentile@gmail.com", passwordEncoder.encode("kobe123"));
+			clientRepository.save(kobe);
+
 			Account account1 = new Account("VIN001", 5000, LocalDateTime.now(), client1, AccountType.Savings);
 			accountRepository.save(account1);
 			Account account2 = new Account("VIN002", 7500, LocalDateTime.now().plusDays(1), client1, AccountType.Current);
 			accountRepository.save(account2);
+			Account accountKobe = new Account("0200316801000040004197", 1000000, LocalDateTime.now().plusDays(1), kobe, AccountType.Current);
+			accountRepository.save(accountKobe);
 
 			Transaction transaction1 = new Transaction("Te transfiero unos pesos", -3000, LocalDateTime.now(), TransactionType.DEBITO, account1);
 			transactionRepository.save(transaction1);

@@ -39,6 +39,7 @@ public class TransactionController {
         return transactionService.getTransactionsDTO();
     }
 
+    @CrossOrigin
     @Transactional
     @PostMapping("/transactions")
     public ResponseEntity<Object> transactionAccount(

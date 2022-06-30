@@ -23,6 +23,13 @@ Vue.createApp({
                 console.log(data)
             })
 
+        axios.get("api/cards/debit/" + myParam)
+            .then(datos => {
+                data = datos.data;
+                console.log(data)
+            })
+
+
         axios.get("/api/cards/" + myParam)
             .then(datos => {
                 this.card = datos.data;
