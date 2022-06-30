@@ -60,10 +60,10 @@ public class CardController {
         return cardService.getCardsCreditDTO(id);
     }
 
-    @GetMapping("/cards/credit/{id}")
-    public CardCreditDTO getCardsDebitDTO(@PathVariable Long id){
-        return cardService.getCardsCreditDTO(id);
-    }
+//    @GetMapping("/cards/debit/{id}")
+//    public CardCreditDTO getCardsDebitDTO(@PathVariable Long id){
+//        return cardService.getCardsCreditDTO(id);
+//    }
 
     @Transactional
     @PostMapping("/clients/current/cards")
